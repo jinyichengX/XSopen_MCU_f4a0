@@ -1,0 +1,5 @@
+#define DLT07_USE_LEADING_HEAD 0
+#if USE_LEADING_HEAD
+#define DLT07_LEADING_HEAD_LEN 4
+#endif
+

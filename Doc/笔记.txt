@@ -1,0 +1,15 @@
+1.使用ll库时需要在hc32f4xx_conf.h中将宏改为DDL_ON
+2.在system_hc32f4a0.h中修改如下,并在魔术棒C/C++ Define中添加F4A0_HCLK_VALUE_MAX
+	#if !defined (F4A0_HCLK_VALUE_MAX)
+	#define HCLK_VALUE                      (SystemCoreClock >> ((CM_CMU->SCFGR & CMU_SCFGR_HCLKS) >> CMU_SCFGR_HCLKS_POS))
+	#else 
+	#define HCLK_VALUE  					(240000000UL)
+	#endif
+3.bsp_wdt中WDT_GetStatus和WDT_ClearStatus自己重定义了
+4.停止仿真出现错误："Error: Encountered an improper argument" 的解决方法：不能包含中文路径
+5.修改了ll库tmr0.h中101行将 "TMR0_CLK_SRC_INTERN_CLK" 改为 "TMR0_CLK_SRC_INTERN_PCLK1"
+6.因为使用华大官方评估板，所以测试SDIO时，SDIO_CD引脚设置为输入，用户自己指定引脚，测试时将指定的引脚和SDIO_CD脚短接
+7.nor flash（w25qxx）写之前必须擦除,以保证flash待写区是0xff,发送清除指令后发送的地址会将该地址所在扇区或块以内所有数据擦除
+8.FreeRTOS移植 将FreeRTOSConfig.h中#ifdef __ICCARM__（IAR编译器）改为#if defined(__ICCARM__) || defined(__CC_ARM) || defined(__GNUC__)
+9.freertos移植到MDK时，与芯片相关的文件选择RVDS文件夹中的M4F文件夹中的文件，不是M4F_MPU文件夹中的文件，否则编译会报错
+10.测试LWIP暂时注释掉FreeRTOS.h中#define xPortSysTickHandler SysTick_Handler
